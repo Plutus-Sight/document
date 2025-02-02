@@ -1,0 +1,58 @@
+---
+title: Transaction
+---
+erDiagram
+    account {
+        varchar code PK
+        varchar name
+        numeric balance
+        timestampz created_at
+        timestampz updated_at
+        timestampz deleted_at
+    }
+
+    transaction_group {
+        varchar code PK
+        varchar name
+        timestampz created_at
+        timestampz updated_at
+        timestampz deleted_at
+    }
+
+    transaction {
+        uuid id PK
+        varchar group_code FK
+        varchar account_code FK
+        varchar type "INCOME or EXPENSE"
+        numeric amount
+        numeric balance
+        date date
+        varchar note
+        timestampz created_at
+        timestampz updated_at
+        timestampz deleted_at
+    }
+
+    credit_card {
+        uuid id PK
+        varchar name
+        integer cycle_date
+        timestampz created_at
+        timestampz updated_at
+        timestampz deleted_at
+    }
+
+    debt_transaction {
+        uuid id PK
+        varchar credit_card_id FK
+        numeric amount
+        date date
+        varchar note
+        timestampz created_at
+        timestampz updated_at
+        timestampz deleted_at
+    }
+
+    account ||--|{ transaction : has
+    transaction }|--|| transaction_group : "is in"
+    credit_card ||--|{ debt_transaction : has
